@@ -34,7 +34,7 @@ exports.distancia = async (req, res) => {
         }
         
 
-        res.json({result})
+        res.json({respostas: "OK"})
 
     } catch (err){
         return { error: true, message: err.message }
