@@ -19,7 +19,7 @@ exports.distancia = async (req, res) => {
             return endereco.replace(/ /g, "%20")
         })
         
-        const result = [];
+        const final = [];
         for(i=0; i<enderecoEscola.length; i++){
             let config = {
                 method: 'get',
@@ -29,12 +29,12 @@ exports.distancia = async (req, res) => {
     
             let data = await axios(config)
             let distancia = data.data.rows[0].elements[0].distance.text
-            result.push({escola: escola[i].Nome ,dist: distancia, ender: enderecosEscolas[i]})
+            final.push(`${escola[i].Nome}, ${distancia}, ${enderecosEscolas[i]}`)
             console.log(distancia, enderecosEscolas[i])
         }
         
 
-        res.json({respostas: "OK"})
+        res.json(final)
 
     } catch (err){
         return { error: true, message: err.message }
