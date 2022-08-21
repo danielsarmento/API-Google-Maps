@@ -5,19 +5,30 @@ require('dotenv').config();
 exports.distancia = async (req, res) => {
     
     const {origin} = req.body;
+    console.log(`Origem: ${origin}`)
     // Ajustando string para requisição
     const origem = origin.replace(/ /g, "%20");
         
     try{
-
+        // Buscando no DB as escolas - retorna um array de objetos
         const escola = await EscolasCadastradas.find()
         
+        // Varre o array e salva apenas os endereços de cada escola
         const enderecosEscolas = escola.map((obj) => {
             return obj.Endereco
         })
+
+        // Transforma os edereços em texto sem espaços para mandar como parâmetro na URL
         const enderecoEscola = enderecosEscolas.map((endereco) => {
             return endereco.replace(/ /g, "%20")
         })
+
+        // Percorre o array das escolas e retorna as vagas de cada escola
+        const vagasEscolas = escola.map((obj) => {
+            
+            return `Vagas no 1° ano: ${obj.Vagas1ano}, Vagas no 2° ano: ${obj.Vagas2ano}, Vagas no 3° ano: ${obj.Vagas3ano}`
+        })
+        console.log(vagasEscolas)
         
         const final = [];
         for(i=0; i<enderecoEscola.length; i++){
@@ -29,8 +40,8 @@ exports.distancia = async (req, res) => {
     
             let data = await axios(config)
             let distancia = data.data.rows[0].elements[0].distance.text
-            final.push(`${escola[i].Nome}, ${distancia}, ${enderecosEscolas[i]}`)
-            console.log(distancia, enderecosEscolas[i])
+            final.push(`${escola[i].Nome}, *Distância:${distancia}*, ${vagasEscolas[i]}`)
+            console.log(distancia, enderecosEscolas[i], final)
         }
         
 
