@@ -4,10 +4,13 @@ require('dotenv').config();
 
 exports.distancia = async (req, res) => {
     
-    const {origin} = req.body;
-    console.log(`Origem: ${origin}`)
+    const {origin, city} = req.body;
+    console.log(`Origem: ${origin}, ${city}`)
+
+    const originEdit = `${origin},${city}`
+
     // Ajustando string para requisição
-    const origem = origin.replace(/ /g, "%20");
+    const origem = originEdit.replace(/ /g, "%20");
         
     try{
         // Buscando no DB as escolas - retorna um array de objetos
