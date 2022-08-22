@@ -46,8 +46,7 @@ exports.distancia = async (req, res) => {
             let data = await axios(config)
             let distancia = data.data.rows[0].elements[0].distance.text
             final.push(`🏫*${escola[i].Nome}*,
-    📍_*Distância: ${distancia}*_, 
-     _${vagasEscolas[i]}_`)
+    📍_*Distância: ${distancia}*_`)
             console.log(distancia, enderecosEscolas[i], final)
         }
         
